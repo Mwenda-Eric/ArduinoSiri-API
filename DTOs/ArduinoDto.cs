@@ -1,3 +1,7 @@
 namespace ArduinoSiriAPI.DTOs;
 
-public record ArduinoDto();
+public class ArduinoDto
+{
+    public string Command { get; set; } = string.Empty;
+    public string ReturnMessage { get; set; } = string.Empty;
+}

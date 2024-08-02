@@ -83,14 +83,29 @@ public class ArduinoService : IArduinoService
         arduinoDto.Command = body.Command;
         
         string initialColor = arduinoDto.Command;
-        string colorCharacter = arduinoDto.Command[0].ToString();
+        string commandCharacter = arduinoDto.Command[0].ToString();
         Console.WriteLine("The Color Received is " + body.Command);
         
         // Send the data to the serial port on Arduino. This should denote the color we want.
         if (_serialPort.IsOpen)
         {
-            _serialPort.WriteLine(colorCharacter);
-            Console.WriteLine($"Color Char Sent to Arduino is '{colorCharacter}'");
+            _serialPort.WriteLine(commandCharacter);
+            Console.WriteLine($"Command to Arduino is '{commandCharacter}'");
+            if (commandCharacter.Equals("T"))
+            {
+                arduinoDto.ReturnMessage =
+                    $"Hey {UserName}, i have Turned off the lights! Anything else you want me to do?";
+                IsTurnedOn = false;
+                Console.WriteLine("LIGHTS TURNED OFF");
+            }
+            else
+            {
+                arduinoDto.ReturnMessage =
+                    $"Hey {UserName}, I have set your Lighting Color to {initialColor}." +
+                    $" Is there anything else you want me to do??";
+                IsTurnedOn = true;
+                Console.WriteLine("LIGHTS STILL ON!");
+            }
         }
         else
         {
@@ -99,8 +114,11 @@ public class ArduinoService : IArduinoService
             return arduinoDto;
         }
         
-        arduinoDto.ReturnMessage = $"Hey {UserName}, I have set your Lighting Color to {initialColor}. " +
-                                   $"Is there anything else you want me to do?";
+        /*arduinoDto.ReturnMessage = !commandCharacter.Equals("T") ? $"Hey {UserName}, I have set your Lighting Color to {initialColor}. " +
+                                   $"Is there anything else you want me to do?"
+                                   :$"Hey {UserName}, i have Turned off the lights! Anything else you want me to do?";
+        */
+        //IsTurnedOn = commandCharacter.Equals("T");
         return arduinoDto;
     }
 }

@@ -8,7 +8,7 @@ using ArduinoSiriAPI.Services;
 namespace ArduinoSiriAPI.Controllers;
 
 [ApiController]
-[Route("api/v1/")]
+[Route("api/v1/[controller]")]
 public class ArduinoController : ControllerBase
 {
     private IArduinoService _arduinoService;
@@ -18,7 +18,7 @@ public class ArduinoController : ControllerBase
     }
     
     [HttpGet]
-    [Route("Configure")]
+    [Route("Config")]
     public async Task<ActionResult<ArduinoDto>> Configure()
     {
         var result = await _arduinoService.Configure();

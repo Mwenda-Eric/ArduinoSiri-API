@@ -13,4 +13,8 @@
         <PackageReference Include="System.IO.Ports" Version="8.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ClCompile Include="ArduinoCode (Run on Arduino IDE)\BluetoothLedStripControl.ino" />
+    </ItemGroup>
+
 </Project>

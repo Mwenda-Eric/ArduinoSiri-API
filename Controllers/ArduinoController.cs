@@ -18,6 +18,15 @@ public class ArduinoController : ControllerBase
     }
     
     [HttpGet]
+    [Route("Configure")]
+    public async Task<ActionResult<ArduinoDto>> Configure()
+    {
+        var result = await _arduinoService.Configure();
+        var returnDto = result.Value;
+        return Ok(returnDto);
+    }
+    
+    [HttpGet]
     [Route("Start")]
     public async Task<ActionResult<ArduinoDto>> Start()
     {

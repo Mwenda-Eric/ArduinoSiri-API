@@ -8,10 +8,11 @@ namespace ArduinoSiriAPI.Services;
 
 public class ArduinoService : IArduinoService
 {
-    private static SerialPort _serialPort;
+    private static readonly SerialPort _serialPort;
     private static readonly string ARDUINO_SERIAL_COMM = "/dev/cu.usbmodem14101";
     // this is the port format on MacOS on Windows it should be something like 'COM3'
     private static readonly string UserName = "Eric"; // Can Replace with own
+    private static bool IsTurnedOn;
 
     static ArduinoService()
     {
@@ -31,6 +32,26 @@ public class ArduinoService : IArduinoService
         }
     }
     
+    public async Task<ActionResult<ArduinoDto>> Configure()
+    {
+        ArduinoDto arduinoDto = new ArduinoDto();
+        
+        if (_serialPort.IsOpen)
+        {
+            
+            _serialPort.WriteLine(" ");
+            Console.WriteLine($"System Connected Successfully!");
+            arduinoDto.ReturnMessage = $"Hey {UserName}, I have connected Successfully. What do you want me to do?";
+        }
+        else
+        {
+            Console.WriteLine("Internal Server Error! Serial Port is not open!");
+            arduinoDto.ReturnMessage = "I have Experienced a Problem Trying to connect to your system.";
+            return arduinoDto;
+        }
+        return arduinoDto;
+    }
+    
     public async Task<ActionResult<ArduinoDto>> Start()
     {
         ArduinoDto arduinoDto = new ArduinoDto();
@@ -39,7 +60,12 @@ public class ArduinoService : IArduinoService
         {
             _serialPort.WriteLine("W");
             Console.WriteLine($"Turned On The Lights and Set Color to White.");
-            arduinoDto.ReturnMessage = $"Hey {UserName}, I have turned on the lights, and set the color to White!";
+            
+            arduinoDto.ReturnMessage = !IsTurnedOn ? $"I have turned on the lights, and set the color to White!" +
+                                       $" Is there anything else you want me to do?"
+                : "I have already turned on your lights. Anything else you want me to do?";
+
+            IsTurnedOn = true;
         }
         else
         {
@@ -73,7 +99,8 @@ public class ArduinoService : IArduinoService
             return arduinoDto;
         }
         
-        arduinoDto.ReturnMessage = $"Hey {UserName}, I have set your Lighting Color to " + initialColor;
+        arduinoDto.ReturnMessage = $"Hey {UserName}, I have set your Lighting Color to {initialColor}. " +
+                                   $"Is there anything else you want me to do?";
         return arduinoDto;
     }
 }

@@ -2,8 +2,6 @@
 
 A system that connects Siri to an Arduino-controlled LED strip, allowing voice commands to control lighting effects.
 
-![Demo](https://github.com/Mwenda-Eric/ArduinoSiri-API/blob/main/SiriDemo.mp4)
-
 ## Overview
 
 ArduinoSiriAPI is a bridge application that enables Siri voice commands to control an addressable LED strip connected to an Arduino. The system architecture consists of:

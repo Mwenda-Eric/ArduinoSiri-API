@@ -2,7 +2,7 @@
 
 A system that connects Siri to an Arduino-controlled LED strip, allowing voice commands to control lighting effects.
 
-![Demo](SiriDemo.mp4)
+![Demo](https://github.com/Mwenda-Eric/ArduinoSiri-API/blob/main/SiriDemo.mp4)
 
 ## Overview
 
